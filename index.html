@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Online Exam</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      user-select: none; /* Prevents text selection */
+    }
+    iframe {
+      width: 100%;
+      height: 1600px;
+      border: none;
+    }
+  </style>
+  <script>
+    // Disable right-click
+    document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+      alert("Right-click is disabled.");
+    });
+
+    // Disable paste
+    document.addEventListener("paste", function(e) {
+      e.preventDefault();
+      alert("Copy-paste is disabled for this exam.");
+    });
+
+    // Disable keyboard shortcuts for dev tools and copy
+    document.addEventListener("keydown", function(e) {
+      // Ctrl+Shift+I or F12 (DevTools)
+      if ((e.ctrlKey && e.shiftKey && e.key === 'I') || e.key === 'F12') {
+        e.preventDefault();
+        alert("Developer tools are disabled.");
+      }
+
+      // Ctrl+U (View source)
+      if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+        alert("Viewing source code is disabled.");
+      }
+
+      // Ctrl+C / Ctrl+V / Ctrl+X
+      if ((e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x'))) {
+        e.preventDefault();
+        alert("Copy-paste is disabled.");
+      }
+    });
+  </script>
+</head>
+<body>
+  <h2 style="text-align:center;">🔒 Online Exam Form</h2>
+  <p style="text-align:center;">Please complete the exam without using copy-paste or any shortcuts. Monitoring is in progress.</p>
+
+  <!-- Embed your Google Form below -->
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdfe1b6JnkHF45SmXqR1mXL7BAUkMY3H2Uf2Sdgsuy3bmkVJA/viewform?usp=header"></iframe>
+</body>
+</html>
