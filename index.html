@@ -6,47 +6,78 @@
   <title>Secure Online Exam</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      user-select: none; /* Block text selection */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      user-select: none;
+      margin: 0;
+      padding: 0;
+    }
+    h2 {
+      text-align: center;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px 0;
+      margin: 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     form {
       width: 90%;
       max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      border: 2px solid #444;
-      border-radius: 10px;
-      background: #f9f9f9;
+      margin: 30px auto;
+      padding: 30px;
+      border: none;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
     input, textarea {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 5px;
-      border: 1px solid #aaa;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
     }
     input[type="submit"] {
-      background-color: #4CAF50;
+      background-color: #27ae60;
       color: white;
+      font-weight: bold;
       border: none;
-      cursor: pointer;
+      transition: background 0.3s;
+    }
+    input[type="submit"]:hover {
+      background-color: #219150;
+    }
+    #timer {
+      text-align: center;
+      font-size: 18px;
+      color: #c0392b;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .closed-message {
+      text-align: center;
+      padding: 50px;
+      background-color: white;
+      max-width: 600px;
+      margin: 50px auto;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      font-size: 20px;
+      color: #e74c3c;
     }
   </style>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Disable right-click
       document.addEventListener("contextmenu", function (e) {
         e.preventDefault();
         alert("Right-click is disabled.");
       });
-
-      // Disable paste
       document.addEventListener("paste", function (e) {
         e.preventDefault();
         alert("Pasting is disabled.");
       });
-
-      // Disable copy, cut
       document.addEventListener("copy", function (e) {
         e.preventDefault();
         alert("Copying is disabled.");
@@ -55,19 +86,34 @@
         e.preventDefault();
         alert("Cutting is disabled.");
       });
-
-      // Block dev tools
       document.addEventListener("keydown", function (e) {
         if ((e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || e.key === 'F12' || (e.ctrlKey && e.key === 'U')) {
           e.preventDefault();
           alert("Developer tools are disabled.");
         }
       });
+
+      let timerDisplay = document.getElementById("timer");
+      let timeLeft = 30 * 60;
+
+      const interval = setInterval(() => {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerDisplay.textContent = `⏳ Time Left: ${minutes}m ${seconds < 10 ? '0' + seconds : seconds}s`;
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          document.querySelector("form").outerHTML = '<div class="closed-message">⏰ Time is up. The form is now closed.</div>';
+        }
+
+        timeLeft--;
+      }, 1000);
     });
   </script>
 </head>
 <body>
-  <h2 style="text-align:center;">🔒 Online Exam Form</h2>
+  <h2>🔒 Online Exam Form</h2>
+  <div id="timer"></div>
   <form name="examForm" method="POST" action="https://script.google.com/macros/s/AKfycbwExa4NMu0LplmA0a2OJ1inCw4Uula5R_VeGGprtvV3DnWzxCfL7LR3-7ROX66nP0qr/exec">
     <label for="name">Your Name:</label>
     <input type="text" id="name" name="name" required>
